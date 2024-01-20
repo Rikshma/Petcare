@@ -64,6 +64,7 @@ const ReminderScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
+    top: 10,
     flex: 1,
     backgroundColor: '#FFF',
   },
@@ -74,10 +75,21 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   calendar: {
-    width: '90%',
+    width: '70%',
     alignSelf: 'center',
     borderBottomWidth: 1,
     borderBottomColor: '#EDEDED',
+    // Shadow for iOS
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    // Elevation for Android
+    elevation: 5,
+    // Optional: Add a background color and padding to ensure the shadow is visible
+    backgroundColor: '#FFF',
+    padding: 10,
+    borderRadius: 10, // Optional: if you want rounded corners
   },
   inputContainer: {
     padding: 20,

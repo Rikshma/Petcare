@@ -8,6 +8,7 @@ import SignUpScreen from './Pages/SignUpScreen';
 import VeterinarianListScreen from './Pages/Vet';
 import ReminderScreen from './Pages/ReminderScreen';
 import ProfileScreen from './Pages/ProfileScreen';
+import LoginScreen from './Pages/LoginScreen';
 // import TrainerScreen from './Pages/TrainerScreen'; // Assuming you have this
 // import GroomingScreen from './Pages/GroomingScreen'; // Assuming you have this
 
@@ -24,6 +25,7 @@ function BottomTabNavigator() {
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="home" size={size} color={color} />
           ),
+          headerShown: false
         }}
       />
       <Tab.Screen
@@ -33,6 +35,7 @@ function BottomTabNavigator() {
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="stethoscope" size={size} color={color} />
           ),
+          
         }}
       />
       <Tab.Screen
@@ -42,6 +45,7 @@ function BottomTabNavigator() {
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="bell" size={size} color={color} />
           ),
+          headerShown: false
         }}
       />
       <Tab.Screen
@@ -51,6 +55,7 @@ function BottomTabNavigator() {
           tabBarIcon: ({ color, size }) => (
             <FontAwesome name="user" size={size} color={color} />
           ),
+          headerShown: false
         }}
       />
     </Tab.Navigator>
@@ -59,11 +64,12 @@ function BottomTabNavigator() {
 
 function AppNavigator() {
   return (
-    <Stack.Navigator initialRouteName="HomeScreen">
+    <Stack.Navigator initialRouteName="HomeScreen" screenOptions={{headerShown: false, }}>
       <Stack.Screen name="Tabs" component={BottomTabNavigator} options={{ headerShown: false }} />
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
       <Stack.Screen name="ServiceScreen" component={ServiceScreen} />
       <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+      <Stack.Screen name="LoginScreen" component={LoginScreen} />
     </Stack.Navigator>
   );
 }

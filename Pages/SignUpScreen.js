@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import * as ImagePicker from 'expo-image-picker';
 import {
   View,
   Text,
@@ -11,7 +13,34 @@ import {
 } from 'react-native';
 import Background from '../Background';
 
+const socialButtons = [
+  { name: 'google', color: 'orange' },
+  { name: 'facebook', color: 'orange' },
+  { name: 'instagram', color: 'orange' },
+  { name: 'twitter', color: 'orange' },
+];
 const SignUpScreen = () => {
+  const [image, setImage] = useState(null);
+  const [selectedPetType, setSelectedPetType] = useState(null);
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+  
+    console.log(result);
+  
+    if (!result.cancelled) {
+      setImage(result.uri);
+      // Assuming you want to also include the image in the formData:
+      setFormData({ ...formData, image: result.uri });
+    }
+  };
+
   const [formData, setFormData] = useState({
     ownerName: '',
     email: '',
@@ -104,13 +133,15 @@ const SignUpScreen = () => {
           {/* Social Media Buttons */}
           {/* Replace with your social media buttons */}
           <View style={styles.socialButtonsContainer}>
-            <Button title="G" color="#000" />
-            <Button title="f" color="#000" />
-            <Button title="In" color="#000" />
-            <Button title="Tw" color="#000" />
+            {socialButtons.map((button, index) => (
+              <TouchableOpacity key={index} style={[styles.socialButton, { backgroundColor: button.color }]}>
+                <FontAwesome name={button.name} size={34} color="#FFF" />
+              </TouchableOpacity>
+            ))}
           </View>
-          <TouchableOpacity style={styles.uploadButton}>
-            <Text style={styles.uploadButtonText}>Upload Image</Text>
+          <TouchableOpacity style={styles.uploadButton} onPress={pickImage}>
+            {image && <Image source={{ uri: image }} style={styles.uploadedImage} />}
+            {!image && <FontAwesome name='camera' size={34} color="black" />}
           </TouchableOpacity>
           <TextInput 
             style={styles.textInput} 
@@ -121,13 +152,28 @@ const SignUpScreen = () => {
           {/* Pet Type Selection */}
           {/* Replace with your pet type selection logic */}
           <View style={styles.petTypeContainer}>
-            <TouchableOpacity style={styles.petTypeButton}>
+            <TouchableOpacity
+              style={[
+                styles.petTypeButton,
+                selectedPetType === 'Dog' ? styles.petTypeButtonSelected : {},
+              ]}
+              onPress={() => setSelectedPetType('Dog')}
+            >
+              <FontAwesome name='paw' size={24} color={selectedPetType === 'Dog' ? 'black' : 'grey'} />
               <Text>Dog</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.petTypeButton}>
+            <TouchableOpacity
+              style={[
+                styles.petTypeButton,
+                selectedPetType === 'Cat' ? styles.petTypeButtonSelected : {},
+              ]}
+              onPress={() => setSelectedPetType('Cat')}
+            >
+              <FontAwesome name='paw' size={24} color={selectedPetType === 'Cat' ? 'black' : 'grey'} />
               <Text>Cat</Text>
             </TouchableOpacity>
           </View>
+
           <TextInput 
             style={styles.textInput} 
             placeholder="Select Your Pet Breed"
@@ -251,13 +297,31 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     width: '80%',
+    borderRadius: 25,
     marginTop: 10,
   },
   uploadButton: {
-    backgroundColor: '#FFFFFF',
-    padding: 15,
-    borderRadius: 25,
+    backgroundColor: '#FFFFFF', // White background for the upload button
+    padding: 10,
+    borderRadius: 100, // Make it circular
+    width: 150, // Set width for the button
+    height: 150, // Set height for the button
+    justifyContent: 'center',
+    alignItems: 'center',
     marginVertical: 10,
+    borderWidth: 0,
+    borderColor: '#ddd', // Slight border to help the button stand out
+    elevation: 4, // Shadow for Android
+    shadowColor: '#000', // Shadow for iOS
+    shadowOffset: { width: 0, height: 2 }, // Shadow for iOS
+    shadowOpacity: 0.1, // Shadow for iOS
+    shadowRadius: 4, // Shadow for iOS
+    alignSelf: 'center', // Center the button in the container
+  },
+  uploadedImage: {
+    width: '100%', // Full width of the button
+    height: '100%', // Full height of the button
+    borderRadius: 100, // Make it circular
   },
   uploadButtonText: {
     color: '#000000',
@@ -269,10 +333,18 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   petTypeButton: {
+    width: 80, // Adjust the size as needed
+    height: 80, // Adjust the size as needed
+    borderRadius: 50, // Half the size to make it circular
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: '#FFFFFF',
-    padding: 15,
-    borderRadius: 25,
-    marginVertical: 10,
+    marginHorizontal: 10,
+    marginBottom:10
+  },
+  petTypeButtonSelected: {
+    borderWidth: 2,
+    borderColor: 'black',
   },
   signUpButton: {
     backgroundColor: '#000000',

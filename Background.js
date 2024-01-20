@@ -14,6 +14,7 @@ const Background = ({ children }) => {
 
 const styles = StyleSheet.create({
   background: {
+    top: 60,
     flex: 1,
     width: '100%',
     height: '100%',

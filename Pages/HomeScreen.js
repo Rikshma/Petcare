@@ -15,10 +15,10 @@ const HomeScreen = ({ navigation }) => {
       />
       <TouchableOpacity
         style={styles.getStartedButton}
-        onPress={() => navigation.navigate('Tabs', { screen: 'ServiceScreen' })}>
+        onPress={() => navigation.navigate('SignUpScreen')}>
         <Text style={styles.buttonText}>Get Started</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('SignUpScreen')}>
+      <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
         <Text style={styles.loginText}>Already have an account Login</Text>
       </TouchableOpacity>
       <Text style={styles.footerText}>All right reserved @ 2023</Text>
