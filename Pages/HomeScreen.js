@@ -5,20 +5,20 @@ const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('./assets/IMG-20231106-WA0001.jpg')} // Replace with your actual logo path
+        source={require('../assets/IMG-20231106-WA0001.jpg')} // Replace with your actual logo path
         style={styles.logo}
       />
       <Text style={styles.welcomeText}>Welcome to Click Pet</Text>
       <Image
-        source={require('./assets/IMG-20231117-WA0018.jpg')} // Replace with your pets image path
+        source={require('../assets/IMG-20231117-WA0018.jpg')} // Replace with your pets image path
         style={styles.petsImage}
       />
       <TouchableOpacity
         style={styles.getStartedButton}
-        onPress={() => navigation.navigate('ServiceScreen')}>
+        onPress={() => navigation.navigate('Tabs', { screen: 'ServiceScreen' })}>
         <Text style={styles.buttonText}>Get Started</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => {/* handle login navigation */}}>
+      <TouchableOpacity onPress={() => navigation.navigate('SignUpScreen')}>
         <Text style={styles.loginText}>Already have an account Login</Text>
       </TouchableOpacity>
       <Text style={styles.footerText}>All right reserved @ 2023</Text>

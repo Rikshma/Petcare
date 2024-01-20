@@ -6,7 +6,7 @@ const SplashScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('./assets/IMG-20231106-WA0001.jpg')} // replace with the path to your logo
+        source={require('../assets/IMG-20231106-WA0001.jpg')} // replace with the path to your logo
         style={styles.logo}
       />
     </View>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './AppNavigator'; // This is where your stack navigator is defined
-import SplashScreen from './SplashScreen'; // Your SplashScreen component
+import SplashScreen from './Pages/SplashScreen'; // Your SplashScreen component
 
 const App = () => {
   const [isSplashScreenVisible, setSplashScreenVisible] = useState(true);

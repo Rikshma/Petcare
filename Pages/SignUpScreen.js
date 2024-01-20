@@ -9,47 +9,97 @@ import {
   Image,
   Button
 } from 'react-native';
+import Background from '../Background';
 
 const SignUpScreen = () => {
-  const [ownerName, setOwnerName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({
+    ownerName: '',
+    email: '',
+    password: '',
+    petName: '',
+    breed: 0,
+    dateOfBirth: '',
+    age: 0,
+    gender: 0,
+    color: ''
+  });
 
-  // Add state for other fields as necessary
+  const handleInputChange = (name, value) => {
+    let updatedValue = value;
+  if (name === 'age' || name === 'gender' || name === 'breed') {
+    updatedValue = parseInt(value, 10); // Convert value to integer
+  }
 
-  const handleSignUp = () => {
-    // Sign up logic here
+  setFormData(prevFormData => ({
+    ...prevFormData,
+    [name]: updatedValue
+  }));
   };
 
+  const handleSignUp = async () => {
+    // URL of your backend endpoint
+    const signUpEndpoint = 'https://localhost:7036/Pet';
+  
+    try {
+      console.log("logging")
+      // Make a POST request to your backend server
+      const response = await fetch(signUpEndpoint, {
+        method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+        
+        
+      });
+     console.log(response)
+      if (!response.ok) {
+        // Handle HTTP errors
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      // Parse the JSON response from the server
+      const responseData = await response.json();
+  
+      // Handle the response
+      // For example, navigate to another screen, show success message, etc.
+      console.log('Sign up successful:', responseData);
+    } catch (error) {
+      // Handle errors (e.g., network error, response parsing error)
+      console.error('Error during sign up:', error.message);
+    }
+  };
+  
+
   return (
-    <ScrollView style={styles.scrollView} contentContainerStyle={styles.contentContainer}>
-      <View style={styles.semiCircle} />
+    <Background>
       <View style={styles.logoContainer}>
       <Image
-        source={require('./assets/IMG-20231106-WA0001.jpg')} // Replace with your actual logo path
+        source={require('../assets/logo.png')} // Replace with your actual logo path
         style={styles.logo}
       />
       </View>
+    <ScrollView  >
       <View style={styles.inputContainer}>
           <TextInput 
             style={styles.textInput} 
             placeholder="Owner Name"
-            onChangeText={setOwnerName}
-            value={ownerName}
+            onChangeText={(value) => handleInputChange('ownerName', value)}
+            value={formData.ownerName}
           />
           <TextInput 
             style={styles.textInput} 
             placeholder="Email"
             keyboardType="email-address"
-            onChangeText={setEmail}
-            value={email}
+            onChangeText={(value) => handleInputChange('email', value)}
+            value={formData.email}
           />
           <TextInput 
             style={styles.textInput} 
             placeholder="Password"
             secureTextEntry
-            onChangeText={setPassword}
-            value={password}
+            onChangeText={(value) => handleInputChange('password', value)}
+            value={formData.password}
           />
           {/* Social Media Buttons */}
           {/* Replace with your social media buttons */}
@@ -65,7 +115,8 @@ const SignUpScreen = () => {
           <TextInput 
             style={styles.textInput} 
             placeholder="Enter Your Pet Name"
-            // Add onChangeText and value for pet name
+            onChangeText={(value) => handleInputChange('petName', value)}
+            value={formData.petName}
           />
           {/* Pet Type Selection */}
           {/* Replace with your pet type selection logic */}
@@ -80,33 +131,39 @@ const SignUpScreen = () => {
           <TextInput 
             style={styles.textInput} 
             placeholder="Select Your Pet Breed"
-            // Add onChangeText and value for pet breed
+            onChangeText={(value) => handleInputChange('breed', value)}
+            value={formData.breed}
           />
           <TextInput 
             style={styles.textInput} 
             placeholder="Date of Birth"
-            // Add onChangeText and value for date of birth
+            onChangeText={(value) => handleInputChange('dateOfBirth', value)}
+            value={formData.dateOfBirth}
           />
           <TextInput 
             style={styles.textInput} 
             placeholder="Age"
-            // Add onChangeText and value for age
+            onChangeText={(value) => handleInputChange('age', value)}
+            value={formData.age}
           />
           <TextInput 
             style={styles.textInput} 
             placeholder="Select Your Pet Gender"
-            // Add onChangeText and value for pet gender
+            onChangeText={(value) => handleInputChange('gender', value)}
+            value={formData.gender}
           />
           <TextInput 
             style={styles.textInput} 
             placeholder="Color"
-            // Add onChangeText and value for color
+            onChangeText={(value) => handleInputChange('color', value)}
+            value={formData.color}
           />
         <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
           <Text style={styles.signUpButtonText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
+    </Background>
   );
 };
 
@@ -119,19 +176,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'white', // Change to white to match the rest of the screen
   },
-  semiCircle: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    bottom: 0,
-    backgroundColor: '#FFA500',
-    width: '50%',
-    height: '100%',
-    borderTopLeftRadius: 300,
-    borderBottomLeftRadius: 300,
-  },
   logoContainer: {
-    marginTop: 60, // Adjust based on your layout
+    marginTop: 20, // Adjust based on your layout
     alignItems: 'center',
     height: 100, // Adjust based on your logo
   },
